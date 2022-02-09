@@ -11,7 +11,7 @@ export default function Home() {
                 <h2 className="title">Quizzical</h2>
             </div>
             <div>
-                <h4 className="desc">Some description if needed</h4>
+                <h4 className="desc">Here, you can get unlimited knowledge :)</h4>
             </div>
             <div>
                 <button className="btn-start-quiz"><NavLink to="/questions" className="start-quiz">  Start quiz </NavLink></button>
