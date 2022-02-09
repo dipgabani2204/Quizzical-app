@@ -1,6 +1,7 @@
 import React from "react";
 import Question from "./Question";
 import { nanoid } from 'nanoid'
+import { Link } from 'react-router-dom'
 
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -16,7 +17,7 @@ class Main extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { questions: [], userAns: [] }
+        this.state = { questions: [], userAns: [], marks: 0, showMarks: false, showBgColor: false }
     }
 
     async componentDidMount() {
@@ -44,32 +45,52 @@ class Main extends React.Component {
         })
     }
 
-    getUserAns = (opt) =>
-    {
+    getUserAns = (opt) => {
+
         this.setState(oldValue => {
             return {
                 ...oldValue,
+
+                //important syntax...
                 userAns: [...oldValue.userAns, opt]
             }
         })
     }
 
     getResult = () => {
-        let result = 0;
-        // alert("Result = ")
-        for(let i=0;i<5;i++)
-        {
-            if(this.state.userAns[i] === this.state.questions[i].ans)
-            {
-                result += 1;
-                console.log(result)
-                alert(result)
+
+        for (let i = 0; i < 5; i++) {
+            if (this.state.userAns[i] === this.state.questions[i].ans) {
+                this.setState(oldValue => {
+                    return {
+                        ...oldValue,
+                        marks: oldValue.marks + 1
+                    }
+                })
             }
         }
+        this.setState(oldValue => {
+            return {
+                ...oldValue,
+                showMarks: !oldValue.showMarks,
+                showBgColor: !oldValue.showBgColor
+            }
+        })
+    }
+
+    playAgain = () => {
+        this.setState(oldValue => {
+            return {
+                ...oldValue,
+                showMarks: !oldValue.showMarks,
+                showBgColor: !oldValue.showBgColor
+            }
+        })
+        window.location.reload(false);
     }
 
     render() {
-        debugger
+
         return (
             <div className="container">
                 <div className="questions-main">
@@ -82,14 +103,17 @@ class Main extends React.Component {
                             opt4={data.opt[3]}
                             ans={data.ans}
                             key={data.key}
+                            showBgColor = {this.state.showBgColor}
                             id={data.key}
                             getUserAns={this.getUserAns}
                         />
                     })}
                 </div>
 
-                <div>
-                    <button className="btn-check-ans" onClick={this.getResult}>Check answers</button>
+                <div className="result">
+                    {this.state.showMarks && <span className="marks">You scored {this.state.marks}/5 correct answers</span>}
+                    {!this.state.showMarks && <button className="btn-check-ans" onClick={this.getResult}>Check answers</button>}
+                    {this.state.showMarks && <button className="btn-check-ans" onClick={this.playAgain}>Play again </button>}
                 </div>
             </div>
         )
