@@ -8,22 +8,26 @@ export default function Question(props) {
             {
                 id: nanoid(),
                 isSelected: false,
-                opt: props.opt1
+                opt: props.opt1,
+                isTrue: false
             },
             {
                 id: nanoid(),
                 isSelected: false,
-                opt: props.opt2
+                opt: props.opt2,
+                isTrue: false
             },
             {
                 id: nanoid(),
                 isSelected: false,
-                opt: props.opt3
+                opt: props.opt3,
+                isTrue: false
             },
             {
                 id: nanoid(),
                 isSelected: false,
-                opt: props.opt4
+                opt: props.opt4,
+                isTrue: false
             }
         ]);
     
@@ -54,7 +58,12 @@ export default function Question(props) {
             if (i !== index) {
                 copyData[i].isSelected = false;
             }
+            if(copyData[i].opt === props.ans)
+            {
+                copyData[i].isTrue = true;
+            }
         }
+        
         setData(copyData)
         sendUserAns(copyData)
     }
@@ -64,11 +73,10 @@ export default function Question(props) {
         {
             if(data[i].isSelected === true)
             {
-                props.getUserAns(data[i].opt);
+               props.getUserAns(data[i].opt);
             }
         }
     }
-    
     
     return (
         <div className="div-que" >
@@ -76,13 +84,15 @@ export default function Question(props) {
                 <h5>{props.que}</h5>
             </div>
 
-            <div className="div-opt" onClick={() => {}}>
+            <div className="div-opt" >
 
                 {data.map(option => {
 
                     return <Option
                         value={option.opt}
                         isSelected={option.isSelected}
+                        isTrue = {option.isTrue}
+                        showBgColor = {props.showBgColor}
                         changeSelect={changeSelect}
                         id={option.id}
                         key={option.id}
