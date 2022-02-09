@@ -16,7 +16,7 @@ class Main extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { questions: [], useSelection: [] }
+        this.state = { questions: [], userAns: [] }
     }
 
     async componentDidMount() {
@@ -44,8 +44,30 @@ class Main extends React.Component {
         })
     }
 
-    getResult(){
-        console.log(this.state.useSelection)
+    getUserAns = (opt) =>
+    {
+        let data = this.state.userAns;
+        data.push(opt)
+        this.setState(oldValue => {
+            return {
+                ...oldValue,
+                userAns: data
+            }
+        })
+    }
+
+    getResult = () => {
+        let result = 0;
+        // alert("Result = ")
+        for(let i=0;i<5;i++)
+        {
+            if(this.state.userAns[i] === this.state.questions[i].ans)
+            {
+                result += 1;
+                console.log(result)
+                alert(result)
+            }
+        }
     }
 
     render() {
@@ -63,7 +85,7 @@ class Main extends React.Component {
                             ans={data.ans}
                             key={data.key}
                             id={data.key}
-                            userAns = {this.setState}
+                            getUserAns={this.getUserAns}
                         />
                     })}
                 </div>
