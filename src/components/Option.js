@@ -3,7 +3,7 @@ import React from "react";
 export default function Option(props) {
     
     const styles = {
-        backgroundColor: props.isSelected ?  "#D6DBF5" : "transparent"
+        backgroundColor: props.showBgColor ? (props.isSelected ? (props.isTrue ? "#94D7A2" : "#F8BCBC"): "transperant") : (props.isSelected? "#D6DBF5" : "transparent"),
     }
 
     return (
