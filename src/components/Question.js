@@ -3,30 +3,31 @@ import Option from "./Option"
 import { nanoid } from 'nanoid'
 
 export default function Question(props) {
+
+        const [data, setData] = React.useState([
+            {
+                id: nanoid(),
+                isSelected: false,
+                opt: props.opt1
+            },
+            {
+                id: nanoid(),
+                isSelected: false,
+                opt: props.opt2
+            },
+            {
+                id: nanoid(),
+                isSelected: false,
+                opt: props.opt3
+            },
+            {
+                id: nanoid(),
+                isSelected: false,
+                opt: props.opt4
+            }
+        ]);
     
-    const [data, setData] = React.useState([
-        {
-            id: nanoid(),
-            isSelected: false,
-            opt: props.opt1
-        },
-        {
-            id: nanoid(),
-            isSelected: false,
-            opt: props.opt2
-        },
-        {
-            id: nanoid(),
-            isSelected: false,
-            opt: props.opt3
-        },
-        {
-            id: nanoid(),
-            isSelected: false,
-            opt: props.opt4
-        }
-    ]);
-    
+        let [userChoice, setUserChoice] = React.useState("");
     
     //whenever you want to change some data into array of object, don't use setData() directly...
     //make a shallow copy of data
@@ -35,6 +36,7 @@ export default function Question(props) {
     //update the data into above created variable...
     //now, update this object into copyData
     //at last simply call the setData() and pass copyData...
+
     function changeSelect(ID) {
         
         let copyData = [...data]
@@ -56,33 +58,31 @@ export default function Question(props) {
         }
         
         setData(copyData)
-        
-        console.log(copyData)
-        console.log(data)
-        sendUserAns()
+        sendUserAns(copyData)
     }
     
-    let userAnswers = [];
-    
-    function sendUserAns() {
+    function sendUserAns(data) {
         for(let i = 0; i<4; i++)
         {
             if(data[i].isSelected === true)
             {
-                userAnswers.push(data[i].opt)
-                console.log(data[i].opt)
+               setUserChoice(data[i].opt);
             }
-            // console.log(data[i].opt)
         }
     }
-
-
+    
+    React.useEffect(() => {
+        console.log(userChoice)
+    },[userChoice])
+    
+    
     return (
         <div className="div-que" >
             <div className="que">
                 <h5>{props.que}</h5>
             </div>
-            <div className="div-opt"  >
+
+            <div className="div-opt" onClick={() => props.getUserAns(userChoice)}>
 
                 {data.map(option => {
 
@@ -92,6 +92,7 @@ export default function Question(props) {
                         changeSelect={changeSelect}
                         id={option.id}
                         key={option.id}
+                        
                     />
                 })}
 
