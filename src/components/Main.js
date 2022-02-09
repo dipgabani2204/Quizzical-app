@@ -46,12 +46,10 @@ class Main extends React.Component {
 
     getUserAns = (opt) =>
     {
-        let data = this.state.userAns;
-        data.push(opt)
         this.setState(oldValue => {
             return {
                 ...oldValue,
-                userAns: data
+                userAns: [...oldValue.userAns, opt]
             }
         })
     }
@@ -71,7 +69,7 @@ class Main extends React.Component {
     }
 
     render() {
-
+        debugger
         return (
             <div className="container">
                 <div className="questions-main">

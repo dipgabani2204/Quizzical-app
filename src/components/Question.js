@@ -27,7 +27,6 @@ export default function Question(props) {
             }
         ]);
     
-        let [userChoice, setUserChoice] = React.useState("");
     
     //whenever you want to change some data into array of object, don't use setData() directly...
     //make a shallow copy of data
@@ -56,7 +55,6 @@ export default function Question(props) {
                 copyData[i].isSelected = false;
             }
         }
-        
         setData(copyData)
         sendUserAns(copyData)
     }
@@ -66,14 +64,10 @@ export default function Question(props) {
         {
             if(data[i].isSelected === true)
             {
-               setUserChoice(data[i].opt);
+                props.getUserAns(data[i].opt);
             }
         }
     }
-    
-    React.useEffect(() => {
-        console.log(userChoice)
-    },[userChoice])
     
     
     return (
@@ -82,7 +76,7 @@ export default function Question(props) {
                 <h5>{props.que}</h5>
             </div>
 
-            <div className="div-opt" onClick={() => props.getUserAns(userChoice)}>
+            <div className="div-opt" onClick={() => {}}>
 
                 {data.map(option => {
 
